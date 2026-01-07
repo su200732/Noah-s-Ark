@@ -5,23 +5,75 @@
     box-sizing: border-box;
 }
 
+/* 主题变量 */
+:root {
+    /* 浅色主题变量 */
+    --color-text-primary: #1d1d1f;
+    --color-text-secondary: #86868b;
+    --color-background: #f5f5f7;
+    --color-surface: #ffffff;
+    --color-border: rgba(0, 0, 0, 0.1);
+    --color-border-light: rgba(0, 0, 0, 0.05);
+    --color-accent: #06c;
+    --color-hover: #0071e3;
+    --color-button: #06c;
+    --color-button-hover: #0071e3;
+    --color-button-text: #ffffff;
+    --color-input-bg: #ffffff;
+    --color-input-border: rgba(0, 0, 0, 0.1);
+    --color-input-placeholder: #86868b;
+    --color-success: #34c759;
+    --color-warning: #ff9500;
+    --color-error: #ff3b30;
+    --color-info: #5ac8fa;
+    --color-shadow: rgba(0, 0, 0, 0.1);
+    --color-shadow-light: rgba(0, 0, 0, 0.05);
+    --color-shadow-dark: rgba(0, 0, 0, 0.15);
+    --color-overlay: rgba(0, 0, 0, 0.05);
+    
+    /* 基础字体大小响应式设置 */
+    --font-size-base: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+}
+
+/* 深色主题变量 */
+body.dark-theme {
+    --color-text-primary: #ffffff;
+    --color-text-secondary: #86868b;
+    --color-background: #121212;
+    --color-surface: #1e1e1e;
+    --color-border: rgba(255, 255, 255, 0.1);
+    --color-border-light: rgba(255, 255, 255, 0.05);
+    --color-accent: #0a84ff;
+    --color-hover: #3091ff;
+    --color-button: #0a84ff;
+    --color-button-hover: #3091ff;
+    --color-button-text: #ffffff;
+    --color-input-bg: #2c2c2e;
+    --color-input-border: rgba(255, 255, 255, 0.1);
+    --color-input-placeholder: #86868b;
+    --color-success: #30d158;
+    --color-warning: #ff9f0a;
+    --color-error: #ff453a;
+    --color-info: #64d2ff;
+    --color-shadow: rgba(0, 0, 0, 0.3);
+    --color-shadow-light: rgba(0, 0, 0, 0.2);
+    --color-shadow-dark: rgba(0, 0, 0, 0.4);
+    --color-overlay: rgba(0, 0, 0, 0.2);
+}
+
 body {
     font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
     line-height: 1.6;
-    color: #1d1d1f;
-    background-color: #f5f5f7;
+    color: var(--color-text-primary);
+    background-color: var(--color-background);
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* 优化触摸体验 */
     -webkit-tap-highlight-color: transparent;
     touch-action: manipulation;
-}
-
-/* 基础字体大小响应式设置 */
-:root {
-    --font-size-base: 16px;
-    --font-size-lg: 18px;
-    --font-size-xl: 20px;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* 平板设备字体调整 */
@@ -64,14 +116,18 @@ body {
     background-color: rgba(255, 255, 255, 0.8);
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     padding: clamp(0.625rem, 2vw, 0.875rem) 0;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 2px var(--color-shadow-light);
     position: sticky;
     top: 0;
     z-index: 1000;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--color-border);
     transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+body.dark-theme .navbar {
+    background-color: rgba(30, 30, 30, 0.8);
 }
 
 .nav-container {
@@ -86,7 +142,7 @@ body {
 .nav-title {
     font-size: clamp(1.125rem, 3vw, 1.25rem);
     font-weight: 600;
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     letter-spacing: -0.01em;
     white-space: nowrap;
 }
@@ -103,7 +159,7 @@ body {
 }
 
 .nav-link {
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     text-decoration: none;
     font-size: clamp(0.875rem, 2vw, 0.9375rem);
     font-weight: 400;
@@ -129,12 +185,12 @@ body {
 }
 
 .nav-link:hover {
-    color: #06c;
+    color: var(--color-accent);
     background-color: transparent;
 }
 
 .nav-link.active {
-    color: #06c;
+    color: var(--color-accent);
     background-color: transparent;
     font-weight: 500;
 }
@@ -146,7 +202,7 @@ body {
     left: 0;
     width: 100%;
     height: 3px;
-    background-color: #06c;
+    background-color: var(--color-accent);
     border-radius: 1.5px;
 }
 
@@ -169,7 +225,7 @@ body {
 .hero h2 {
     font-size: clamp(2rem, 8vw, 3.5rem);
     font-weight: 700;
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     margin-bottom: clamp(1rem, 4vw, 1.5rem);
     letter-spacing: -0.015em;
     line-height: 1.1;
@@ -178,7 +234,7 @@ body {
 .hero p {
     font-size: clamp(1rem, 4vw, 1.5rem);
     font-weight: 400;
-    color: #86868b;
+    color: var(--color-text-secondary);
     margin-bottom: clamp(2rem, 6vw, 3rem);
     max-width: 720px;
     margin-left: auto;
@@ -194,7 +250,7 @@ body {
     align-items: center;
     overflow: hidden;
     border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 10px 30px var(--color-shadow);
 }
 
 .hero-image img {
@@ -217,7 +273,7 @@ body {
     text-align: center;
     font-size: clamp(1.75rem, 5vw, 2.5rem);
     font-weight: 600;
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     margin-bottom: clamp(2rem, 6vw, 3rem);
     letter-spacing: -0.01em;
 }
@@ -232,13 +288,13 @@ body {
 }
 
 .feature-item {
-    background-color: white;
+    background-color: var(--color-surface);
     padding: clamp(2rem, 6vw, 2.5rem);
     border-radius: clamp(12px, 3vw, 16px);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 10px var(--color-shadow-light);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-border-light);
     /* 确保卡片在触摸设备上有良好的交互反馈 */
     cursor: pointer;
     -webkit-tap-highlight-color: transparent;
@@ -246,38 +302,38 @@ body {
 
 .feature-item:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 25px var(--color-shadow);
 }
 
 /* 移动端触摸反馈 */
 .feature-item:active {
     transform: translateY(0);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 12px var(--color-shadow-light);
 }
 
 .feature-item h4 {
     font-size: clamp(1.125rem, 3vw, 1.25rem);
     font-weight: 600;
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     margin-bottom: clamp(0.75rem, 2vw, 1rem);
     letter-spacing: -0.005em;
 }
 
 .feature-item p {
-    color: #86868b;
+    color: var(--color-text-secondary);
     font-size: clamp(0.9375rem, 2.5vw, 1rem);
     line-height: 1.6;
 }
 
 /* 我的页面样式 */
 .profile-section {
-    background-color: white;
+    background-color: var(--color-surface);
     border-radius: clamp(12px, 3vw, 16px);
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 15px var(--color-shadow-light);
     padding: clamp(1.5rem, 6vw, 2.5rem);
     max-width: 900px;
     margin: 0 auto;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-border-light);
 }
 
 .profile-header {
@@ -286,7 +342,7 @@ body {
     gap: clamp(1.5rem, 5vw, 2.5rem);
     margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
     padding-bottom: clamp(1.5rem, 5vw, 2.5rem);
-    border-bottom: 1px solid #e8e8ed;
+    border-bottom: 1px solid var(--color-border);
     flex-wrap: wrap;
     justify-content: center;
     text-align: center;
@@ -302,15 +358,15 @@ body {
     height: clamp(120px, 30vw, 180px);
     border-radius: 50%;
     object-fit: cover;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.12);
+    border: 1px solid var(--color-border);
+    box-shadow: 0 8px 25px var(--color-shadow);
     transition: transform 0.3s ease, box-shadow 0.3s ease;
-    background-color: #f0f0f0;
+    background-color: var(--color-background);
 }
 
 .profile-avatar img:hover {
     transform: scale(1.05);
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 12px 35px var(--color-shadow-dark);
 }
 
 .profile-info {
@@ -321,7 +377,7 @@ body {
 .profile-info h2 {
     font-size: clamp(1.5rem, 5vw, 2.25rem);
     font-weight: 600;
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
     letter-spacing: -0.01em;
 }
@@ -329,7 +385,7 @@ body {
 .profile-name, .profile-email, .profile-join {
     font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
     margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
-    color: #86868b;
+    color: var(--color-text-secondary);
     font-weight: 400;
     letter-spacing: 0.005em;
 }
@@ -341,14 +397,14 @@ body {
 .profile-content h3 {
     font-size: clamp(1.25rem, 4vw, 1.5rem);
     font-weight: 600;
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     margin-bottom: clamp(0.75rem, 2.5vw, 1.25rem);
     margin-top: clamp(1.5rem, 5vw, 2.5rem);
     letter-spacing: -0.005em;
 }
 
 .profile-content p {
-    color: #86868b;
+    color: var(--color-text-secondary);
     line-height: 1.7;
     margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
     font-size: clamp(0.9375rem, 2.5vw, 1.0625rem);
@@ -370,32 +426,32 @@ body {
     background-color: transparent;
     border-radius: clamp(8px, 2.5vw, 12px);
     transition: background-color 0.2s ease;
-    border: 1px solid rgba(0, 0, 0, 0.05);
+    border: 1px solid var(--color-border-light);
     /* 增强触摸区域 */
     min-height: 50px;
 }
 
 .setting-item:hover {
-    background-color: #f5f5f7;
+    background-color: var(--color-background);
 }
 
 /* 移动端触摸反馈 */
 .setting-item:active {
-    background-color: #e8e8ed;
+    background-color: var(--color-overlay);
 }
 
 .setting-label {
     font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
     font-weight: 400;
-    color: #1d1d1f;
+    color: var(--color-text-primary);
     letter-spacing: 0.005em;
     flex: 1;
 }
 
 .setting-btn {
     padding: clamp(0.5rem, 2vw, 0.625rem) clamp(1rem, 4vw, 1.75rem);
-    background-color: #06c;
-    color: white;
+    background-color: var(--color-button);
+    color: var(--color-button-text);
     border: none;
     border-radius: 980px;
     font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
@@ -412,7 +468,7 @@ body {
 }
 
 .setting-btn:hover {
-    background-color: #0071e3;
+    background-color: var(--color-button-hover);
     transform: scale(1.02);
     box-shadow: 0 4px 12px rgba(6, 139, 252, 0.3);
 }
@@ -424,11 +480,11 @@ body {
 /* 页脚样式 */
 .footer {
     background-color: transparent;
-    color: #86868b;
+    color: var(--color-text-secondary);
     text-align: center;
     padding: clamp(1.5rem, 5vw, 2.5rem) 0;
     margin-top: clamp(2rem, 6vw, 4rem);
-    border-top: 1px solid #e8e8ed;
+    border-top: 1px solid var(--color-border);
 }
 
 .footer .container {
@@ -439,7 +495,7 @@ body {
 
 .footer p {
     margin: 0;
-    color: #86868b;
+    color: var(--color-text-secondary);
     font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
     font-weight: 400;
     letter-spacing: 0.005em;
@@ -617,6 +673,352 @@ body {
         width: clamp(80px, 20vw, 120px);
         height: clamp(80px, 20vw, 120px);
     }
+}
+
+/* 主题切换开关样式 */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1.25rem);
+}
+
+.theme-switch {
+    position: relative;
+    display: inline-block;
+    width: 52px;
+    height: 26px;
+}
+
+.theme-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: 0.3s;
+    border-radius: 34px;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+body.dark-theme .slider {
+    background-color: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 3px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.3s;
+    border-radius: 50%;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+body.dark-theme .slider:before {
+    background-color: #1e1e1e;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+}
+
+input:checked + .slider {
+    background-color: var(--color-accent);
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px var(--color-accent);
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.theme-label {
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    color: var(--color-text-secondary);
+    font-weight: 400;
+}
+
+/* 登录页面样式 */
+.login-section {
+    max-width: 450px;
+    margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 2rem);
+}
+
+.login-card {
+    background-color: var(--color-surface);
+    border-radius: clamp(12px, 3vw, 16px);
+    box-shadow: 0 8px 30px var(--color-shadow-light);
+    padding: clamp(2rem, 6vw, 3rem);
+    text-align: center;
+    border: 1px solid var(--color-border-light);
+}
+
+.login-title {
+    font-size: clamp(1.5rem, 5vw, 2rem);
+    font-weight: 700;
+    color: var(--color-text-primary);
+    margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+    letter-spacing: -0.01em;
+}
+
+.login-subtitle {
+    font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+    color: var(--color-text-secondary);
+    margin-bottom: clamp(2rem, 6vw, 3rem);
+    letter-spacing: 0.005em;
+}
+
+.login-form {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(1rem, 3vw, 1.5rem);
+}
+
+.form-group {
+    text-align: left;
+}
+
+.avatar-group {
+    text-align: center;
+    margin-bottom: clamp(1rem, 3vw, 1.5rem);
+}
+
+.avatar-upload {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: clamp(0.75rem, 2vw, 1rem);
+}
+
+.avatar-preview {
+    width: clamp(100px, 25vw, 140px);
+    height: clamp(100px, 25vw, 140px);
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--color-shadow);
+    background-color: var(--color-background);
+    margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.avatar-label {
+    cursor: pointer;
+    color: var(--color-accent);
+    font-size: clamp(0.875rem, 2.5vw, 1rem);
+    font-weight: 500;
+    transition: color 0.2s ease;
+    display: inline-block;
+    padding: clamp(0.5rem, 2vw, 0.625rem) clamp(1rem, 4vw, 1.5rem);
+    border-radius: 980px;
+    background-color: transparent;
+    border: 1px solid var(--color-accent);
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.avatar-label:hover {
+    color: var(--color-hover);
+    background-color: rgba(6, 139, 252, 0.05);
+    border-color: var(--color-hover);
+}
+
+.avatar-label:active {
+    transform: scale(0.98);
+}
+
+.avatar-text {
+    display: inline-block;
+    pointer-events: none;
+}
+
+.form-label {
+    display: block;
+    font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
+    font-weight: 500;
+    color: var(--color-text-primary);
+    margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
+    letter-spacing: 0.005em;
+}
+
+.form-input {
+    width: 100%;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+    font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+    color: var(--color-text-primary);
+    background-color: var(--color-input-bg);
+    border: 1px solid var(--color-input-border);
+    border-radius: clamp(8px, 2.5vw, 12px);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 1px 3px var(--color-shadow-light);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 4px rgba(6, 139, 252, 0.1);
+    background-color: var(--color-input-bg);
+}
+
+.form-input::placeholder {
+    color: var(--color-input-placeholder);
+}
+
+.password-input-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: clamp(1rem, 3vw, 1.25rem);
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--color-text-secondary);
+    padding: 0;
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    transition: color 0.2s ease;
+}
+
+.password-toggle:hover {
+    color: var(--color-text-primary);
+}
+
+.login-button {
+    width: 100%;
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+    background-color: var(--color-button);
+    color: var(--color-button-text);
+    border: none;
+    border-radius: clamp(8px, 2.5vw, 12px);
+    font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    box-shadow: 0 4px 12px rgba(6, 139, 252, 0.3);
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: -0.01em;
+}
+
+.login-button:hover {
+    background-color: var(--color-button-hover);
+    box-shadow: 0 6px 16px rgba(6, 139, 252, 0.4);
+    transform: translateY(-1px);
+}
+
+.login-button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(6, 139, 252, 0.3);
+}
+
+.login-options {
+    margin-top: clamp(1.5rem, 5vw, 2rem);
+}
+
+.or-divider {
+    text-align: center;
+    position: relative;
+    margin-bottom: clamp(1.5rem, 5vw, 2rem);
+    color: var(--color-text-secondary);
+    font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
+    font-weight: 400;
+    letter-spacing: 0.005em;
+}
+
+.or-divider::before,
+.or-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background-color: var(--color-border);
+}
+
+.or-divider::before {
+    left: 0;
+}
+
+.or-divider::after {
+    right: 0;
+}
+
+.social-login {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(0.75rem, 2vw, 1rem);
+}
+
+.social-button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(0.75rem, 2vw, 1rem);
+    padding: clamp(0.75rem, 2vw, 1rem) clamp(1rem, 3vw, 1.25rem);
+    background-color: var(--color-surface);
+    color: var(--color-text-primary);
+    border: 1px solid var(--color-border);
+    border-radius: clamp(8px, 2.5vw, 12px);
+    font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    min-height: 48px;
+    touch-action: manipulation;
+    -webkit-tap-highlight-color: transparent;
+    letter-spacing: -0.01em;
+}
+
+.social-button:hover {
+    background-color: var(--color-background);
+    box-shadow: 0 2px 8px var(--color-shadow-light);
+    transform: translateY(-1px);
+}
+
+.social-button:active {
+    transform: translateY(0);
+    box-shadow: none;
+}
+
+.social-button svg {
+    width: clamp(18px, 4vw, 20px);
+    height: clamp(18px, 4vw, 20px);
+    flex-shrink: 0;
 }
 
 /* 高分辨率屏幕优化 */

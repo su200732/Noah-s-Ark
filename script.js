@@ -2,6 +2,9 @@
 window.addEventListener('DOMContentLoaded', function() {
     // 初始化页面
     initPage();
+    
+    // 初始化主题切换
+    initThemeSwitch();
 });
 
 /**
@@ -25,6 +28,9 @@ function initPage() {
     
     // 添加图片加载效果
     addImageLoadEffects();
+    
+    // 初始化主题
+    initTheme();
 }
 
 /**
@@ -322,4 +328,97 @@ window.addEventListener('resize', function() {
         // 窗口大小变化完成后执行
         initPage();
     }, 250);
+});
+
+/**
+ * 初始化主题 - 从本地存储或系统偏好加载主题
+ */
+function initTheme() {
+    // 从本地存储获取主题偏好
+    const savedTheme = localStorage.getItem('theme');
+    
+    // 如果有保存的主题，使用它
+    if (savedTheme) {
+        applyTheme(savedTheme);
+    } else {
+        // 否则检测系统偏好
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        const defaultTheme = prefersDark ? 'dark' : 'light';
+        applyTheme(defaultTheme);
+    }
+}
+
+/**
+ * 初始化主题切换开关
+ */
+function initThemeSwitch() {
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        // 设置开关初始状态
+        const savedTheme = localStorage.getItem('theme') || 
+                         (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+        themeToggle.checked = savedTheme === 'dark';
+        
+        // 添加主题切换事件监听器
+        themeToggle.addEventListener('change', function() {
+            toggleTheme();
+        });
+    }
+}
+
+/**
+ * 切换主题
+ */
+function toggleTheme() {
+    // 获取当前主题
+    const isDarkTheme = document.body.classList.contains('dark-theme');
+    
+    // 切换到相反主题
+    const newTheme = isDarkTheme ? 'light' : 'dark';
+    applyTheme(newTheme);
+    
+    // 保存主题偏好
+    saveThemePreference(newTheme);
+}
+
+/**
+ * 应用主题
+ * @param {string} theme - 主题名称 ('light' 或 'dark')
+ */
+function applyTheme(theme) {
+    // 更新body类名
+    if (theme === 'dark') {
+        document.body.classList.add('dark-theme');
+    } else {
+        document.body.classList.remove('dark-theme');
+    }
+    
+    // 更新主题切换开关状态
+    const themeToggle = document.getElementById('theme-toggle');
+    if (themeToggle) {
+        themeToggle.checked = theme === 'dark';
+    }
+    
+    // 添加主题切换过渡效果
+    document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+}
+
+/**
+ * 保存主题偏好到本地存储
+ * @param {string} theme - 主题名称 ('light' 或 'dark')
+ */
+function saveThemePreference(theme) {
+    localStorage.setItem('theme', theme);
+}
+
+/**
+ * 监听系统主题变化
+ */
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function(e) {
+    // 只有当没有手动设置主题时，才跟随系统主题
+    const savedTheme = localStorage.getItem('theme');
+    if (!savedTheme) {
+        const newTheme = e.matches ? 'dark' : 'light';
+        applyTheme(newTheme);
+    }
 });
