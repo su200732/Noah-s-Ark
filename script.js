@@ -8,11 +8,11 @@ window.addEventListener('DOMContentLoaded', function() {
  * 初始化页面，添加各种交互效果
  */
 function initPage() {
-    // 添加页面淡入效果
-    addPageFadeIn();
-    
     // 设置当前页面的导航高亮
     setActiveNavLink();
+    
+    // 添加页面淡入效果
+    addPageFadeIn();
     
     // 添加按钮点击效果
     addButtonEffects();
@@ -20,27 +20,42 @@ function initPage() {
     // 添加平滑滚动
     addSmoothScroll();
     
-    // 添加导航栏滚动效果
-    addNavbarScrollEffect();
+    // 添加特色卡片悬停效果
+    addFeatureCardEffects();
+    
+    // 添加图片加载效果
+    addImageLoadEffects();
 }
 
 /**
- * 添加页面淡入效果
+ * 添加页面淡入效果 - 苹果风格的流畅动画
  */
 function addPageFadeIn() {
     // 获取主内容区域
     const mainContent = document.querySelector('.main-content');
     if (mainContent) {
+        // 使用CSS变量存储动画参数
+        mainContent.style.setProperty('--fade-in-delay', '0.1s');
+        
         // 初始设置透明度为0
         mainContent.style.opacity = '0';
-        mainContent.style.transform = 'translateY(20px)';
-        mainContent.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        mainContent.style.transform = 'translateY(30px)';
+        mainContent.style.transition = 'opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94), transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         
         // 页面加载后显示内容
-        setTimeout(() => {
-            mainContent.style.opacity = '1';
-            mainContent.style.transform = 'translateY(0)';
-        }, 100);
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        mainContent.style.opacity = '1';
+                        mainContent.style.transform = 'translateY(0)';
+                    }, 100);
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        observer.observe(mainContent);
     }
 }
 
@@ -67,7 +82,7 @@ function setActiveNavLink() {
 }
 
 /**
- * 添加按钮点击效果
+ * 添加按钮点击效果 - 苹果风格的反馈
  */
 function addButtonEffects() {
     // 获取所有按钮
@@ -79,35 +94,48 @@ function addButtonEffects() {
             // 创建点击波纹效果
             createRipple(e, this);
             
-            // 按钮按下效果
-            this.style.transform = 'scale(0.95)';
+            // 按钮按下效果 - 苹果风格的弹性反馈
+            this.style.transform = 'scale(0.98)';
+            this.style.transition = 'transform 0.15s cubic-bezier(0.4, 0, 0.2, 1)';
+            
             setTimeout(() => {
                 this.style.transform = 'scale(1)';
+                this.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
             }, 150);
+        });
+        
+        // 鼠标悬停效果
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.02)';
+            this.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+            this.style.transition = 'transform 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
         });
     });
 }
 
 /**
- * 创建点击波纹效果
- * @param {Event} e - 点击事件对象
- * @param {HTMLElement} element - 目标元素
+ * 创建点击波纹效果 - 苹果风格的扩散动画
  */
 function createRipple(e, element) {
     // 创建波纹元素
     const ripple = document.createElement('span');
     
-    // 设置波纹样式
+    // 设置波纹样式 - 苹果风格的柔和扩散
     ripple.style.position = 'absolute';
     ripple.style.borderRadius = '50%';
-    ripple.style.background = 'rgba(255, 255, 255, 0.6)';
+    ripple.style.background = 'rgba(255, 255, 255, 0.7)';
     ripple.style.transform = 'scale(0)';
-    ripple.style.animation = 'ripple 0.6s linear';
+    ripple.style.animation = 'ripple 0.8s cubic-bezier(0.4, 0, 0.2, 1)';
     ripple.style.pointerEvents = 'none';
+    ripple.style.userSelect = 'none';
     
     // 获取点击位置
     const rect = element.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
+    const size = Math.max(rect.width, rect.height) * 1.5;
     const x = e.clientX - rect.left - size / 2;
     const y = e.clientY - rect.top - size / 2;
     
@@ -126,25 +154,23 @@ function createRipple(e, element) {
     // 动画结束后移除波纹
     setTimeout(() => {
         ripple.remove();
-    }, 600);
+    }, 800);
 }
 
 /**
- * 添加平滑滚动效果
+ * 添加平滑滚动效果 - 苹果风格的自然滚动
  */
 function addSmoothScroll() {
-    // 获取所有锚点链接
-    const anchorLinks = document.querySelectorAll('a[href^="#"]');
-    
-    anchorLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+    // 平滑滚动到锚点
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
             e.preventDefault();
             
             const targetId = this.getAttribute('href');
             const targetElement = document.querySelector(targetId);
             
             if (targetElement) {
-                // 平滑滚动到目标位置
+                // 苹果风格的平滑滚动
                 targetElement.scrollIntoView({
                     behavior: 'smooth',
                     block: 'start'
@@ -152,90 +178,148 @@ function addSmoothScroll() {
             }
         });
     });
-}
-
-/**
- * 添加导航栏滚动效果
- */
-function addNavbarScrollEffect() {
-    const navbar = document.querySelector('.navbar');
-    if (!navbar) return;
     
-    // 监听滚动事件
-    window.addEventListener('scroll', function() {
-        if (window.scrollY > 50) {
-            // 滚动超过50px时，添加阴影和背景色变化
-            navbar.style.boxShadow = '0 4px 12px rgba(0, 0, 0, 0.15)';
-            navbar.style.background = 'rgba(26, 115, 232, 0.95)';
-        } else {
-            // 恢复初始样式
-            navbar.style.boxShadow = '0 2px 4px rgba(0, 0, 0, 0.1)';
-            navbar.style.background = '#1a73e8';
-        }
+    // 页面内导航链接的平滑滚动
+    document.querySelectorAll('a[href$=".html"]').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // 添加页面切换前的淡出效果
+            const mainContent = document.querySelector('.main-content');
+            if (mainContent) {
+                mainContent.style.opacity = '0';
+                mainContent.style.transform = 'translateY(20px)';
+                mainContent.style.transition = 'opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1), transform 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+            }
+        });
     });
 }
 
 /**
- * 添加特色卡片的悬停效果
+ * 添加特色卡片悬停效果 - 苹果风格的微妙动画
  */
 function addFeatureCardEffects() {
     const featureCards = document.querySelectorAll('.feature-item');
     
-    featureCards.forEach(card => {
+    featureCards.forEach((card, index) => {
+        // 设置延迟，创建交错动画效果
+        card.style.setProperty('--card-index', index);
+        
         card.addEventListener('mouseenter', function() {
-            this.style.transform = 'translateY(-8px) scale(1.02)';
+            this.style.transform = 'translateY(-6px) scale(1.01)';
+            this.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         });
         
         card.addEventListener('mouseleave', function() {
             this.style.transform = 'translateY(0) scale(1)';
+            this.style.transition = 'transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
         });
     });
 }
 
 /**
- * 添加图片加载效果
+ * 添加图片加载效果 - 苹果风格的渐进式显示
  */
 function addImageLoadEffects() {
     const images = document.querySelectorAll('img');
     
     images.forEach(img => {
-        // 初始设置透明度为0
+        // 初始设置
         img.style.opacity = '0';
-        img.style.transition = 'opacity 0.5s ease';
+        img.style.transform = 'scale(0.98)';
+        img.style.transition = 'opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1)';
         
         // 图片加载完成后显示
         img.addEventListener('load', function() {
             this.style.opacity = '1';
+            this.style.transform = 'scale(1)';
         });
         
         // 如果图片已经加载完成
         if (img.complete) {
             img.style.opacity = '1';
+            img.style.transform = 'scale(1)';
         }
+        
+        // 使用Intersection Observer实现图片懒加载
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // 图片进入视口时加载
+                    const img = entry.target;
+                    const src = img.getAttribute('data-src') || img.src;
+                    if (src) {
+                        img.src = src;
+                    }
+                    observer.unobserve(img);
+                }
+            });
+        }, {
+            threshold: 0.1,
+            rootMargin: '50px'
+        });
+        
+        observer.observe(img);
     });
 }
 
-// 添加CSS动画样式
+// 添加CSS动画样式 - 苹果风格的动画曲线
 const style = document.createElement('style');
 style.textContent = `
+    /* 苹果风格的波纹动画 */
     @keyframes ripple {
-        to {
+        0% {
+            transform: scale(0);
+            opacity: 1;
+        }
+        100% {
             transform: scale(4);
             opacity: 0;
         }
     }
+    
+    /* 苹果风格的缓动函数 */
+    .apple-ease {
+        transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    
+    /* 增强的悬停效果 */
+    .feature-item {
+        transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
 `;
 document.head.appendChild(style);
 
-// 监听窗口大小变化，重新初始化页面
-window.addEventListener('resize', function() {
-    initPage();
-});
+// 优化滚动性能 - 使用requestAnimationFrame
+let ticking = false;
+
+function updateScrollEffects() {
+    // 这里可以添加滚动时的效果，如导航栏变化等
+    ticking = false;
+}
+
+function requestTick() {
+    if (!ticking) {
+        requestAnimationFrame(updateScrollEffects);
+        ticking = true;
+    }
+}
+
+// 监听滚动事件
+window.addEventListener('scroll', requestTick, { passive: true });
 
 // 监听页面可见性变化
 document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'visible') {
-        // 页面重新可见时，重新初始化
+        // 页面重新可见时，刷新页面效果
         initPage();
     }
+});
+
+// 优化窗口大小变化处理
+let resizeTimeout;
+window.addEventListener('resize', function() {
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(function() {
+        // 窗口大小变化完成后执行
+        initPage();
+    }, 250);
 });
