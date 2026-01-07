@@ -12,6 +12,43 @@ body {
     background-color: #f5f5f7;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    /* 优化触摸体验 */
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* 基础字体大小响应式设置 */
+:root {
+    --font-size-base: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 20px;
+}
+
+/* 平板设备字体调整 */
+@media (max-width: 1024px) {
+    :root {
+        --font-size-base: 15px;
+        --font-size-lg: 17px;
+        --font-size-xl: 19px;
+    }
+}
+
+/* 移动设备字体调整 */
+@media (max-width: 768px) {
+    :root {
+        --font-size-base: 14px;
+        --font-size-lg: 16px;
+        --font-size-xl: 18px;
+    }
+}
+
+/* 小屏移动设备字体调整 */
+@media (max-width: 480px) {
+    :root {
+        --font-size-base: 13px;
+        --font-size-lg: 15px;
+        --font-size-xl: 17px;
+    }
 }
 
 /* 容器样式 */
@@ -19,7 +56,7 @@ body {
     width: 100%;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 clamp(16px, 4vw, 20px);
 }
 
 /* 导航栏样式 */
@@ -28,12 +65,13 @@ body {
     backdrop-filter: saturate(180%) blur(20px);
     -webkit-backdrop-filter: saturate(180%) blur(20px);
     color: #1d1d1f;
-    padding: 0.875rem 0;
+    padding: clamp(0.625rem, 2vw, 0.875rem) 0;
     box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
     z-index: 1000;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
 .nav-container {
@@ -42,20 +80,22 @@ body {
     align-items: center;
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 clamp(16px, 4vw, 20px);
 }
 
 .nav-title {
-    font-size: 1.25rem;
+    font-size: clamp(1.125rem, 3vw, 1.25rem);
     font-weight: 600;
     color: #1d1d1f;
     letter-spacing: -0.01em;
+    white-space: nowrap;
 }
 
 .nav-menu {
     display: flex;
     list-style: none;
-    gap: 2rem;
+    gap: clamp(1rem, 5vw, 2rem);
+    align-items: center;
 }
 
 .nav-item {
@@ -65,13 +105,27 @@ body {
 .nav-link {
     color: #1d1d1f;
     text-decoration: none;
-    font-size: 0.9375rem;
+    font-size: clamp(0.875rem, 2vw, 0.9375rem);
     font-weight: 400;
-    padding: 0.5rem 0;
-    margin: 0 0.5rem;
+    padding: clamp(0.375rem, 1vw, 0.5rem) 0;
+    margin: 0 clamp(0.25rem, 1vw, 0.5rem);
     border-radius: 0;
     transition: color 0.2s ease;
     position: relative;
+    /* 增强触摸区域 */
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+}
+
+/* 增强导航链接的触摸区域 */
+.nav-link::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
 }
 
 .nav-link:hover {
@@ -98,34 +152,34 @@ body {
 
 /* 主内容区域 */
 .main-content {
-    padding: 3rem 0;
+    padding: clamp(2rem, 8vw, 3rem) 0;
     min-height: calc(100vh - 120px);
 }
 
 /* 主页样式 */
 .hero {
     text-align: center;
-    margin-bottom: 4rem;
-    padding: 3rem 2rem;
+    margin-bottom: clamp(2.5rem, 10vw, 4rem);
+    padding: clamp(2rem, 8vw, 3rem) clamp(1rem, 5vw, 2rem);
     background-color: transparent;
     border-radius: 0;
     box-shadow: none;
 }
 
 .hero h2 {
-    font-size: 3.5rem;
+    font-size: clamp(2rem, 8vw, 3.5rem);
     font-weight: 700;
     color: #1d1d1f;
-    margin-bottom: 1.5rem;
+    margin-bottom: clamp(1rem, 4vw, 1.5rem);
     letter-spacing: -0.015em;
     line-height: 1.1;
 }
 
 .hero p {
-    font-size: 1.5rem;
+    font-size: clamp(1rem, 4vw, 1.5rem);
     font-weight: 400;
     color: #86868b;
-    margin-bottom: 3rem;
+    margin-bottom: clamp(2rem, 6vw, 3rem);
     max-width: 720px;
     margin-left: auto;
     margin-right: auto;
@@ -134,54 +188,60 @@ body {
 }
 
 .hero-image {
-    margin-top: 3rem;
+    margin-top: clamp(2rem, 6vw, 3rem);
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
 }
 
 .hero-image img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+    display: block;
     transition: transform 0.3s ease;
 }
 
-.hero-image img:hover {
+.hero-image:hover img {
     transform: scale(1.02);
 }
 
 /* 特色区域 */
 .features {
-    margin-bottom: 4rem;
+    margin-bottom: clamp(2.5rem, 10vw, 4rem);
 }
 
 .features h3 {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
     font-weight: 600;
     color: #1d1d1f;
-    margin-bottom: 3rem;
+    margin-bottom: clamp(2rem, 6vw, 3rem);
     letter-spacing: -0.01em;
 }
 
 .features-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 2.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+    gap: clamp(1.5rem, 6vw, 2.5rem);
     max-width: 1000px;
     margin: 0 auto;
+    padding: 0 clamp(1rem, 5vw, 2rem);
 }
 
 .feature-item {
     background-color: white;
-    padding: 2.5rem;
-    border-radius: 16px;
+    padding: clamp(2rem, 6vw, 2.5rem);
+    border-radius: clamp(12px, 3vw, 16px);
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
     text-align: center;
     transition: transform 0.2s ease, box-shadow 0.2s ease;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    /* 确保卡片在触摸设备上有良好的交互反馈 */
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
 }
 
 .feature-item:hover {
@@ -189,26 +249,32 @@ body {
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
 }
 
+/* 移动端触摸反馈 */
+.feature-item:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
 .feature-item h4 {
-    font-size: 1.25rem;
+    font-size: clamp(1.125rem, 3vw, 1.25rem);
     font-weight: 600;
     color: #1d1d1f;
-    margin-bottom: 1rem;
+    margin-bottom: clamp(0.75rem, 2vw, 1rem);
     letter-spacing: -0.005em;
 }
 
 .feature-item p {
     color: #86868b;
-    font-size: 1rem;
+    font-size: clamp(0.9375rem, 2.5vw, 1rem);
     line-height: 1.6;
 }
 
 /* 我的页面样式 */
 .profile-section {
     background-color: white;
-    border-radius: 16px;
+    border-radius: clamp(12px, 3vw, 16px);
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
-    padding: 2.5rem;
+    padding: clamp(1.5rem, 6vw, 2.5rem);
     max-width: 900px;
     margin: 0 auto;
     border: 1px solid rgba(0, 0, 0, 0.05);
@@ -217,19 +283,23 @@ body {
 .profile-header {
     display: flex;
     align-items: center;
-    gap: 2.5rem;
-    margin-bottom: 2.5rem;
-    padding-bottom: 2.5rem;
+    gap: clamp(1.5rem, 5vw, 2.5rem);
+    margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
+    padding-bottom: clamp(1.5rem, 5vw, 2.5rem);
     border-bottom: 1px solid #e8e8ed;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-align: center;
 }
 
 .profile-avatar {
     flex-shrink: 0;
+    margin: 0 auto;
 }
 
 .profile-avatar img {
-    width: 180px;
-    height: 180px;
+    width: clamp(120px, 30vw, 180px);
+    height: clamp(120px, 30vw, 180px);
     border-radius: 50%;
     object-fit: cover;
     border: 1px solid rgba(0, 0, 0, 0.1);
@@ -243,40 +313,45 @@ body {
     box-shadow: 0 12px 35px rgba(0, 0, 0, 0.15);
 }
 
+.profile-info {
+    flex: 1;
+    min-width: 200px;
+}
+
 .profile-info h2 {
-    font-size: 2.25rem;
+    font-size: clamp(1.5rem, 5vw, 2.25rem);
     font-weight: 600;
     color: #1d1d1f;
-    margin-bottom: 1.25rem;
+    margin-bottom: clamp(0.75rem, 2vw, 1.25rem);
     letter-spacing: -0.01em;
 }
 
 .profile-name, .profile-email, .profile-join {
-    font-size: 1.125rem;
-    margin-bottom: 0.75rem;
+    font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
+    margin-bottom: clamp(0.5rem, 2vw, 0.75rem);
     color: #86868b;
     font-weight: 400;
     letter-spacing: 0.005em;
 }
 
 .profile-content {
-    margin-top: 2.5rem;
+    margin-top: clamp(1.5rem, 5vw, 2.5rem);
 }
 
 .profile-content h3 {
-    font-size: 1.5rem;
+    font-size: clamp(1.25rem, 4vw, 1.5rem);
     font-weight: 600;
     color: #1d1d1f;
-    margin-bottom: 1.25rem;
-    margin-top: 2.5rem;
+    margin-bottom: clamp(0.75rem, 2.5vw, 1.25rem);
+    margin-top: clamp(1.5rem, 5vw, 2.5rem);
     letter-spacing: -0.005em;
 }
 
 .profile-content p {
     color: #86868b;
     line-height: 1.7;
-    margin-bottom: 2.5rem;
-    font-size: 1.0625rem;
+    margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
+    font-size: clamp(0.9375rem, 2.5vw, 1.0625rem);
     letter-spacing: 0.005em;
 }
 
@@ -284,46 +359,56 @@ body {
 .settings-list {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: clamp(0.5rem, 2vw, 0.75rem);
 }
 
 .setting-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.25rem 1.5rem;
+    padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);
     background-color: transparent;
-    border-radius: 12px;
+    border-radius: clamp(8px, 2.5vw, 12px);
     transition: background-color 0.2s ease;
     border: 1px solid rgba(0, 0, 0, 0.05);
+    /* 增强触摸区域 */
+    min-height: 50px;
 }
 
 .setting-item:hover {
     background-color: #f5f5f7;
 }
 
+/* 移动端触摸反馈 */
+.setting-item:active {
+    background-color: #e8e8ed;
+}
+
 .setting-label {
-    font-size: 1.125rem;
+    font-size: clamp(0.9375rem, 2.5vw, 1.125rem);
     font-weight: 400;
     color: #1d1d1f;
     letter-spacing: 0.005em;
+    flex: 1;
 }
 
 .setting-btn {
-    padding: 0.625rem 1.75rem;
+    padding: clamp(0.5rem, 2vw, 0.625rem) clamp(1rem, 4vw, 1.75rem);
     background-color: #06c;
     color: white;
     border: none;
     border-radius: 980px;
-    font-size: 0.9375rem;
+    font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    min-width: 80px;
-    height: 36px;
+    min-width: clamp(60px, 15vw, 80px);
+    min-height: 36px;
     display: flex;
     align-items: center;
     justify-content: center;
+    /* 增强触摸区域 */
+    margin-left: 1rem;
 }
 
 .setting-btn:hover {
@@ -341,145 +426,208 @@ body {
     background-color: transparent;
     color: #86868b;
     text-align: center;
-    padding: 2.5rem 0;
-    margin-top: 4rem;
+    padding: clamp(1.5rem, 5vw, 2.5rem) 0;
+    margin-top: clamp(2rem, 6vw, 4rem);
     border-top: 1px solid #e8e8ed;
+}
+
+.footer .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(16px, 4vw, 20px);
 }
 
 .footer p {
     margin: 0;
     color: #86868b;
-    font-size: 0.9375rem;
+    font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
     font-weight: 400;
     letter-spacing: 0.005em;
+    line-height: 1.5;
 }
 
-/* 响应式设计 */
+/* 平板设备响应式优化 */
+@media (max-width: 1024px) {
+    /* 优化导航栏在平板设备上的显示 */
+    .nav-container {
+        padding: 0 clamp(16px, 4vw, 20px);
+    }
+    
+    /* 优化特色卡片布局 */
+    .features-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: clamp(1.5rem, 5vw, 2rem);
+    }
+    
+    /* 优化个人资料页面布局 */
+    .profile-section {
+        max-width: 100%;
+        margin: 0 clamp(1rem, 3vw, 2rem);
+    }
+}
+
+/* 移动设备响应式优化 */
 @media (max-width: 768px) {
+    /* 导航栏优化 */
     .nav-container {
         flex-direction: column;
-        gap: 1rem;
-        padding: 0 16px;
+        gap: clamp(0.75rem, 3vw, 1rem);
+        padding: 0 clamp(16px, 4vw, 20px);
     }
 
     .nav-menu {
-        gap: 1.5rem;
+        gap: clamp(1rem, 4vw, 1.5rem);
     }
 
-    .nav-link {
-        font-size: 0.875rem;
-    }
-
+    /* 英雄区域优化 */
     .hero {
-        padding: 2rem 1rem;
-        margin-bottom: 3rem;
+        padding: clamp(1.5rem, 6vw, 2rem) clamp(1rem, 5vw, 2rem);
+        margin-bottom: clamp(2rem, 8vw, 3rem);
     }
 
-    .hero h2 {
-        font-size: 2.5rem;
-        line-height: 1.15;
-    }
-
-    .hero p {
-        font-size: 1.25rem;
-        margin-bottom: 2rem;
-    }
-
-    .hero-image {
-        margin-top: 2rem;
-    }
-
-    .hero-image img {
-        border-radius: 16px;
-    }
-
+    /* 特色区域优化 */
     .features {
-        margin-bottom: 3rem;
-    }
-
-    .features h3 {
-        font-size: 2rem;
-        margin-bottom: 2rem;
+        margin-bottom: clamp(2rem, 8vw, 3rem);
     }
 
     .features-grid {
         grid-template-columns: 1fr;
-        gap: 1.5rem;
-        padding: 0 1rem;
+        gap: clamp(1.5rem, 5vw, 2rem);
+        padding: 0 clamp(1rem, 5vw, 2rem);
     }
 
     .feature-item {
-        padding: 2rem 1.5rem;
+        padding: clamp(1.5rem, 5vw, 2rem) clamp(1rem, 4vw, 1.5rem);
     }
 
+    /* 个人资料页面优化 */
     .profile-section {
-        padding: 2rem 1.5rem;
-        margin: 0 1rem;
-        border-radius: 12px;
+        padding: clamp(1.5rem, 5vw, 2rem) clamp(1rem, 4vw, 1.5rem);
+        margin: 0 clamp(1rem, 3vw, 2rem);
+        border-radius: clamp(8px, 3vw, 12px);
     }
 
     .profile-header {
         flex-direction: column;
         text-align: center;
-        gap: 2rem;
-        margin-bottom: 2rem;
-        padding-bottom: 2rem;
+        gap: clamp(1.5rem, 5vw, 2rem);
+        margin-bottom: clamp(1.5rem, 5vw, 2rem);
+        padding-bottom: clamp(1.5rem, 5vw, 2rem);
     }
 
-    .profile-avatar img {
-        width: 140px;
-        height: 140px;
+    /* 设置项优化 */
+    .setting-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: clamp(0.75rem, 3vw, 1rem);
     }
 
-    .profile-info h2 {
-        font-size: 2rem;
-    }
-
-    .profile-name, .profile-email, .profile-join {
-        font-size: 1rem;
+    .setting-btn {
+        margin-left: 0;
+        width: 100%;
     }
 }
 
+/* 小屏移动设备响应式优化 */
 @media (max-width: 480px) {
+    /* 导航栏优化 */
     .nav-menu {
         flex-direction: column;
         align-items: center;
-        gap: 1rem;
+        gap: clamp(0.75rem, 3vw, 1rem);
     }
 
     .nav-link {
         display: block;
-        font-size: 0.875rem;
-        padding: 0.375rem 0;
+        font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
+        padding: clamp(0.375rem, 2vw, 0.5rem) 0;
+        min-height: 40px;
     }
 
+    /* 英雄区域优化 */
     .hero h2 {
-        font-size: 2rem;
+        font-size: clamp(1.75rem, 7vw, 2.5rem);
     }
 
     .hero p {
-        font-size: 1.125rem;
+        font-size: clamp(1rem, 3.5vw, 1.25rem);
     }
 
+    /* 图片优化 */
+    .hero-image {
+        border-radius: clamp(12px, 3vw, 20px);
+    }
+
+    /* 个人资料优化 */
     .profile-avatar img {
-        width: 120px;
-        height: 120px;
+        width: clamp(100px, 25vw, 140px);
+        height: clamp(100px, 25vw, 140px);
     }
 
     .profile-info h2 {
-        font-size: 1.75rem;
+        font-size: clamp(1.5rem, 5vw, 2rem);
     }
 
+    /* 设置项优化 */
     .setting-item {
-        padding: 1rem 1.25rem;
+        padding: clamp(1rem, 3vw, 1.25rem) clamp(1rem, 3vw, 1.5rem);
     }
 
     .setting-label {
-        font-size: 1rem;
+        font-size: clamp(0.9375rem, 2.5vw, 1rem);
     }
 
     .setting-btn {
-        padding: 0.5rem 1.25rem;
-        font-size: 0.875rem;
+        padding: clamp(0.5rem, 2vw, 0.625rem) clamp(1rem, 4vw, 1.5rem);
+        font-size: clamp(0.875rem, 2.5vw, 0.9375rem);
+        min-height: 36px;
+    }
+}
+
+/* 横屏移动设备优化 */
+@media (max-height: 500px) and (orientation: landscape) {
+    /* 优化横屏时的导航栏 */
+    .navbar {
+        padding: clamp(0.5rem, 2vw, 0.75rem) 0;
+    }
+    
+    /* 优化横屏时的主内容区域 */
+    .main-content {
+        padding: clamp(1rem, 4vw, 2rem) 0;
+    }
+    
+    /* 优化横屏时的英雄区域 */
+    .hero {
+        margin-bottom: clamp(1.5rem, 5vw, 2.5rem);
+        padding: clamp(1.5rem, 5vw, 2rem) clamp(1rem, 3vw, 2rem);
+    }
+    
+    /* 优化横屏时的个人资料页面 */
+    .profile-header {
+        flex-direction: row;
+        text-align: left;
+        gap: clamp(1.5rem, 4vw, 2rem);
+    }
+    
+    .profile-avatar {
+        margin: 0;
+    }
+    
+    .profile-avatar img {
+        width: clamp(80px, 20vw, 120px);
+        height: clamp(80px, 20vw, 120px);
+    }
+}
+
+/* 高分辨率屏幕优化 */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    /* 优化高分辨率屏幕下的图片显示 */
+    img {
+        image-rendering: -webkit-optimize-contrast;
+    }
+    
+    /* 优化高分辨率屏幕下的边框显示 */
+    .navbar, .profile-section, .feature-item, .setting-item {
+        border-width: 0.5px;
     }
 }
